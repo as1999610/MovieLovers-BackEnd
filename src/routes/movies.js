@@ -21,18 +21,18 @@ router.post("/", (req, res) => {
 router.get("/search", (req, res) => {
   request
     .get(
-      `https://www.goodreads.com/search/index.xml?key=${process.env
-        .GOODREADS_KEY}&q=${req.query.q}`
+      `https://www.goodwatch.com/search/index.xml?key=${process.env
+        .GOODWATCH_KEY}&q=${req.query.q}`
     )
     .then(result =>
-      parseString(result, (err, goodreadsResult) =>
+      parseString(result, (err, goodwatchResult) =>
         res.json({
-          movies: goodreadsResult.GoodreadsResponse.search[0].results[0].work.map(
+          movies: goodwatchResult.GoodwatchResponse.search[0].results[0].work.map(
             work => ({
-              goodreadsId: work.best_movie[0].id[0]._,
+              goodwatchId: work.best_movie[0].id[0]._,
               title: work.best_movie[0].title[0],
-              authors: work.best_movie[0].author[0].name[0],
-              covers: [work.best_movie[0].image_url[0]]
+              director: work.best_movie[0].director[0].name[0],
+              mainActor: [work.best_movie[0].image_url[0]]
             })
           )
         })
@@ -41,19 +41,19 @@ router.get("/search", (req, res) => {
 });
 
 router.get("/fetchPages", (req, res) => {
-  const goodreadsId = req.query.goodreadsId;
+  const goodwatchId = req.query.goodwatchId;
 
   request
     .get(
-      `https://www.goodreads.com/book/show.xml?key=${process.env
-        .GOODREADS_KEY}&id=${goodreadsId}`
+      `https://www.goodwatch.com/book/show.xml?key=${process.env
+        .GOODWATCH_KEY}&id=${goodwatchId}`
     )
     .then(result =>
-      parseString(result, (err, goodreadsResult) => {
-        const numPages = goodreadsResult.GoodreadsResponse.movie[0].num_pages[0];
-        const pages = numPages ? parseInt(numPages, 10) : 0;
+      parseString(result, (err, goodwatchResult) => {
+        const duration = goodwatchResult.GoodwatchResponse.movie[0].duration[0];
+        const durations = duration ? parseInt(duration, 10) : 0;
         res.json({
-          pages
+          duration
         });
       })
     );
