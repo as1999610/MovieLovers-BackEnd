@@ -4,7 +4,7 @@ const schema = new mongoose.Schema ({
     title: {type: String, required: true},
     director: {type: String, required: true},
     mainActor: {type: String, required: true},
-    goodWatchId: {type: String},
+    goodwatchId: {type: String},
     duration: {type: Number, required: true},
     userId: {type: mongoose.Schema.Types.ObjectId, required: true}
 })
