@@ -45,7 +45,7 @@ router.get("/fetchPages", (req, res) => {
 
   request
     .get(
-      `https://www.goodwatch.com/book/show.xml?key=${process.env
+      `https://www.goodwatch.com/movie/show.xml?key=${process.env
         .GOODWATCH_KEY}&id=${goodwatchId}`
     )
     .then(result =>
